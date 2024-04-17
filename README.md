@@ -64,7 +64,8 @@ This project follows a versioning scheme to ensure backward compatibility and fa
 2. Install dependencies using `pip install -r requirements.txt`.
 3. Initialize the SQLite database by running `python app.py`.
 4. Start the server using `python app.py`.
-5. Access the API endpoints using a client application or tools like cURL or Postman.
+5. Access the API endpoints using a client application or tools like cURL or Postman. You can use this link to test it on Swagger. After running the code, you can try it from this address.
+http://localhost:9090/swagger/
 
 # University API
 
