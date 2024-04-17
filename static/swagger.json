@@ -1,0 +1,305 @@
+{
+  "swagger": "2.0",
+  "info": {
+      "title": "University API",
+      "description": "APIs for managing tuition fee status in a university system.",
+      "version": "1.0.0"
+  },
+  "basePath": "/",
+  "tags": [
+      {
+          "name": "University Mobile App",
+          "description": "Endpoints for University Mobile App."
+      },
+      {
+          "name": "Banking App",
+          "description": "Endpoints for Banking App."
+      },
+      {
+          "name": "University Web Site - Admin",
+          "description": "Endpoints for University Web Site - Admin."
+      }
+  ],
+  "schemes": [
+      "http"
+  ],
+  "securityDefinitions": {
+      "jwt": {
+          "type": "apiKey",
+          "name": "Authorization",
+          "in": "header"
+      }
+  },
+  "paths": {
+      "/v1/login": {
+          "post": {
+              "tags": ["University Mobile App"],
+              "summary": "Login",
+              "description": "Authenticate the student and generate an access token.",
+              "parameters": [
+                  {
+                      "name": "student_no",
+                      "in": "body",
+                      "description": "Student number",
+                      "required": true,
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful operation",
+                      "schema": {
+                          "type": "object",
+                          "properties": {
+                              "access_token": {
+                                  "type": "string",
+                                  "description": "Generated access token for the authenticated student."
+                              }
+                          }
+                      }
+                  },
+                  "400": {
+                      "description": "Bad request",
+                      "schema": {
+                          "type": "object",
+                          "properties": {
+                              "msg": {
+                                  "type": "string",
+                                  "description": "Error message indicating missing student number."
+                              }
+                          }
+                      }
+                  },
+                  "401": {
+                      "description": "Unauthorized",
+                      "schema": {
+                          "type": "object",
+                          "properties": {
+                              "msg": {
+                                  "type": "string",
+                                  "description": "Error message indicating invalid student number."
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/query-tuition": {
+          "get": {
+              "tags": ["University Mobile App"],
+              "summary": "Query Tuition",
+              "description": "Query tuition and balance for a student.",
+              "parameters": [
+                  {
+                      "name": "student_no",
+                      "in": "query",
+                      "description": "Student number",
+                      "required": true,
+                      "type": "string"
+                  }
+              ],
+              "security": [
+                {"jwt": []}
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful operation",
+                      "schema": {
+                          "type": "object",
+                          "properties": {
+                              "tuition_total": {
+                                  "type": "number"
+                              },
+                              "balance": {
+                                  "type": "number"
+                              }
+                          }
+                      }
+                  },
+                  "404": {
+                      "description": "Student not found"
+                  }
+              }
+          }
+      },
+      "/v1/banking/query-tuition": {
+          "get": {
+              "tags": ["Banking App"],
+              "summary": "Query Tuition",
+              "description": "Query tuition and balance for a student.",
+              "parameters": [
+                  {
+                      "name": "student_no",
+                      "in": "query",
+                      "description": "Student number",
+                      "required": true,
+                      "type": "string"
+                  }
+              ],
+              "security": [
+                {"jwt": []}
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful operation",
+                      "schema": {
+                          "type": "object",
+                          "properties": {
+                              "tuition_total": {
+                                  "type": "number"
+                              },
+                              "balance": {
+                                  "type": "number"
+                              }
+                          }
+                      }
+                  },
+                  "404": {
+                      "description": "Student not found"
+                  }
+              }
+          }
+      },
+      "/v1/banking/pay-tuition": {
+          "post": {
+              "tags": ["Banking App"],
+              "summary": "Pay Tuition",
+              "description": "Pay tuition for a student.",
+              "parameters": [
+                  {
+                      "name": "student_no",
+                      "in": "body",
+                      "description": "Student number",
+                      "required": true,
+                      "schema": {
+                          "type": "string"
+                      }
+                  },
+                  {
+                      "name": "term",
+                      "in": "body",
+                      "description": "Term",
+                      "required": true,
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful operation",
+                      "schema": {
+                          "type": "object",
+                          "properties": {
+                              "payment_status": {
+                                  "type": "string"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/admin/add-tuition": {
+          "post": {
+              "tags": ["University Web Site - Admin"],
+              "summary": "Add Tuition",
+              "description": "Add tuition for a student.",
+              "parameters": [
+                  {
+                      "name": "student_no",
+                      "in": "body",
+                      "description": "Student number",
+                      "required": true,
+                      "schema": {
+                          "type": "string"
+                      }
+                  },
+                  {
+                      "name": "term",
+                      "in": "body",
+                      "description": "Term",
+                      "required": true,
+                      "schema": {
+                          "type": "string"
+                      }
+                  }
+              ],
+              "security": [
+                {"jwt": []}
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful operation",
+                      "schema": {
+                          "type": "object",
+                          "properties": {
+                              "transaction_status": {
+                                  "type": "string"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/v1/admin/unpaid-tuition-status": {
+          "get": {
+              "tags": ["University Web Site - Admin"],
+              "summary": "Unpaid Tuition Status",
+              "description": "Retrieve list of students with unpaid tuition.",
+              "parameters": [
+                  {
+                      "name": "term",
+                      "in": "query",
+                      "description": "Term",
+                      "required": true,
+                      "type": "string"
+                  },
+                  {
+                      "name": "page",
+                      "in": "query",
+                      "description": "Page number",
+                      "required": false,
+                      "type": "integer"
+                  },
+                  {
+                      "name": "per_page",
+                      "in": "query",
+                      "description": "Items per page",
+                      "required": false,
+                      "type": "integer"
+                  }
+              ],
+              "security": [
+                {"jwt": []}
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful operation",
+                      "schema": {
+                          "type": "object",
+                          "properties": {
+                              "unpaid_students": {
+                                  "type": "array",
+                                  "items": {
+                                      "type": "string"
+                                  }
+                              },
+                              "page": {
+                                  "type": "integer"
+                              },
+                              "per_page": {
+                                  "type": "integer"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      }
+  }
+}
