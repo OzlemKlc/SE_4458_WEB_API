@@ -8,7 +8,7 @@ This API project provides endpoints for managing student tuition fees and paymen
 - Endpoints for querying tuition fee status, paying tuition, and adding tuition for students.
 - Separate endpoints for different client applications, such as mobile apps, banking apps, and administrative web interfaces.
 - Pagination support for retrieving unpaid tuition status for administrative purposes.
-## Data Model
+## Data Model (ER diagram)
 ![SE_4458_ER](https://github.com/OzlemKlc/SE_4458_WEB_API/assets/122043812/30d48a20-00f3-4eed-84c6-952e5db2cf5a)
 
 ## Endpoints
